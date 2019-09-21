@@ -85,9 +85,6 @@ class ProcessFile implements ShouldQueue
                 'ffprobe' => 'C:/ffmpeg/bin/ffprobe.exe',
             ], true);
         }
-
-        throw new \Exception('failed');
-
         $fileType = app(FileValidation::class)->fileType(\mime_content_type(\storage_path('app/' . $this->originalFile)));
 
         //dump(\mime_content_type(\storage_path('app/' . $this->originalFile)));
