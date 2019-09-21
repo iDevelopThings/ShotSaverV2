@@ -16,7 +16,7 @@ use Illuminate\Http\Request;
 Route::middleware('auth:api')->group(function () {
 
 
-    Route::post('/upload', 'HomeController@upload');
+    Route::post('/upload', 'FileController@upload');
     Route::get('/files', 'FileController@listFiles');
 
     Route::post('/files/{file}/favourite', 'FileController@favouriteToggle');
