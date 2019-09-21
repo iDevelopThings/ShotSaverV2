@@ -1,7 +1,7 @@
 <meta content="{{request()->fullUrl()}}" property="og:url" />
 @if($file->type == 'image')
     <meta name="twitter:card" content="summary_large_image" />
-    <meta property="og:image" content="{{$file->file('thumb')}}">
+    <meta property="og:image" content="{{$file->file('hd')}}">
     <meta property="og:image:type" content="{{$file->extension}}">
     <meta property="og:type" content="image">
 
