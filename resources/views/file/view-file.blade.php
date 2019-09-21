@@ -77,12 +77,12 @@
                                 <form action="{{route('favourite-file', $file)}}" method="post">
                                     @csrf
                                     @if($file->hasFavourited())
-                                        <button class="btn btn-outline-primary mr-4">
-                                            <i class="far fa-star"></i> Favourite
-                                        </button>
-                                    @else
                                         <button class="btn btn-primary mr-4">
                                             <i class="fas fa-star"></i> Un Favourite
+                                        </button>
+                                    @else
+                                        <button class="btn btn-outline-primary mr-4">
+                                            <i class="far fa-star"></i> Favourite
                                         </button>
                                     @endif
                                 </form>
