@@ -7,10 +7,16 @@
         "laravel"
     ],
     "license": "MIT",
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "https://github.com/ScooterSam/phpvideotoolkit-v2"
+        }
+    ],
     "require": {
         "php": "^7.2",
         "boyhagemann/waveform": "^0.1.0@dev",
-        "buggedcom/phpvideotoolkit": "^2.2",
+        "buggedcom/phpvideotoolkit": "dev-master",
         "coraxster/flysystem-aws-s3-v3-minio": "^1.0",
         "fideloper/proxy": "^4.0",
         "laravel/framework": "^6.0",

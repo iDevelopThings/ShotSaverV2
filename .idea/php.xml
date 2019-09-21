@@ -101,7 +101,6 @@
       <path value="$PROJECT_DIR$/vendor/predis/predis" />
       <path value="$PROJECT_DIR$/vendor/beyondcode/laravel-dump-server" />
       <path value="$PROJECT_DIR$/vendor/sybio/gif-creator" />
-      <path value="$PROJECT_DIR$/vendor/buggedcom/phpvideotoolkit" />
       <path value="$PROJECT_DIR$/vendor/boyhagemann/waveform" />
       <path value="$PROJECT_DIR$/vendor/boyhagemann/wave" />
       <path value="$PROJECT_DIR$/vendor/lcobucci/jwt" />
@@ -114,6 +113,7 @@
       <path value="$PROJECT_DIR$/vendor/symfony/psr-http-message-bridge" />
       <path value="$PROJECT_DIR$/vendor/psr/http-factory" />
       <path value="$PROJECT_DIR$/vendor/laravel/passport" />
+      <path value="$PROJECT_DIR$/vendor/buggedcom/phpvideotoolkit" />
     </include_path>
   </component>
   <component name="PhpProjectSharedConfiguration" php_language_level="7.2" />

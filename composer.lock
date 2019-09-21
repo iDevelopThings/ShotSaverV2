@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "2294b8aa71fb3cd4ff66723b7dbdf06a",
+    "content-hash": "0f4192616b75156f7085b9df7bb27e75",
     "packages": [
         {
             "name": "aws/aws-sdk-php",
@@ -174,16 +174,16 @@
         },
         {
             "name": "buggedcom/phpvideotoolkit",
-            "version": "2.2.5",
+            "version": "dev-master",
             "source": {
                 "type": "git",
-                "url": "https://github.com/buggedcom/phpvideotoolkit-v2.git",
-                "reference": "383a5b2c0ee7f4de4efea9a9154bb693630bbe0f"
+                "url": "https://github.com/ScooterSam/phpvideotoolkit-v2.git",
+                "reference": "bc00b4b19d2fe1171b8e536f1cd02c5cab91e2d0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/buggedcom/phpvideotoolkit-v2/zipball/383a5b2c0ee7f4de4efea9a9154bb693630bbe0f",
-                "reference": "383a5b2c0ee7f4de4efea9a9154bb693630bbe0f",
+                "url": "https://api.github.com/repos/ScooterSam/phpvideotoolkit-v2/zipball/bc00b4b19d2fe1171b8e536f1cd02c5cab91e2d0",
+                "reference": "bc00b4b19d2fe1171b8e536f1cd02c5cab91e2d0",
                 "shasum": ""
             },
             "require": {
@@ -201,7 +201,6 @@
                     "FFmpeg-PHP\\": "emulators/ffmpeg-php/"
                 }
             },
-            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "GPL-3.0+",
                 "MIT"
@@ -222,7 +221,10 @@
                 "mp4",
                 "video"
             ],
-            "time": "2017-09-07T08:36:56+00:00"
+            "support": {
+                "source": "https://github.com/ScooterSam/phpvideotoolkit-v2/tree/master"
+            },
+            "time": "2019-09-21T15:53:54+00:00"
         },
         {
             "name": "coraxster/flysystem-aws-s3-v3-minio",
@@ -6414,7 +6416,8 @@
     "aliases": [],
     "minimum-stability": "dev",
     "stability-flags": {
-        "boyhagemann/waveform": 20
+        "boyhagemann/waveform": 20,
+        "buggedcom/phpvideotoolkit": 20
     },
     "prefer-stable": true,
     "prefer-lowest": false,
