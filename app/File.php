@@ -41,7 +41,7 @@ class File extends Model
 
     public function codeFileContents()
     {
-        if ($this->type !== 'code') {
+        if ($this->type !== 'code' && $this->type !== 'text') {
             throw new \Exception('This file is not a code file.');
         }
 

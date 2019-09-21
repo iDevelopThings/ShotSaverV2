@@ -8,7 +8,7 @@
 
     <link href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet">
 
-    @if($file->type === 'code')
+    @if($file->type === 'code'  || $file->type === 'text')
         <link rel="stylesheet"
               href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.10/styles/atom-one-dark.min.css">
     @endif
@@ -114,7 +114,7 @@
                             </div>
                         </div>
 
-                    @elseif($file->type === 'code')
+                    @elseif($file->type === 'code' || $file->type === 'text')
                         <div class="code-container">
                             <pre><code>{{$file->codeFileContents()}}</code></pre>
                         </div>
@@ -190,7 +190,7 @@
 
         @if($file->type === 'video')
             <script src="//cdn.jsdelivr.net/npm/afterglowplayer@1.x"></script>
-        @elseif($file->type === 'code')
+        @elseif($file->type === 'code' || $file->type === 'text')
             <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.10/highlight.min.js"></script>
             <script src="//cdn.jsdelivr.net/npm/highlightjs-line-numbers.js@2.7.0/dist/highlightjs-line-numbers.min.js"></script>
 
