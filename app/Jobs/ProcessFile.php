@@ -78,10 +78,12 @@ class ProcessFile implements ShouldQueue
      */
     public function handle()
     {
-        $config = new Config([
-            'ffmpeg'  => 'C:/ffmpeg/bin/ffmpeg.exe',
-            'ffprobe' => 'C:/ffmpeg/bin/ffprobe.exe',
-        ], true);
+        if (app()->environment() === 'local') {
+            $config = new Config([
+                'ffmpeg'  => 'C:/ffmpeg/bin/ffmpeg.exe',
+                'ffprobe' => 'C:/ffmpeg/bin/ffprobe.exe',
+            ], true);
+        }
 
         $fileType = app(FileValidation::class)->fileType(\mime_content_type(\storage_path('app/' . $this->originalFile)));
 
