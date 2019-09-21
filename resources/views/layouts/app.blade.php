@@ -17,6 +17,7 @@
     <!-- Styles -->
     <link href="{{ mix('css/app.css') }}" rel="stylesheet">
 
+    @yield('meta')
     @yield('css')
 </head>
 <body>

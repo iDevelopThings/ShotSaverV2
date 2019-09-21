@@ -1,5 +1,9 @@
 @extends('layouts.app')
 
+@section('meta')
+    @include('file.meta-tags', ['file' => $file])
+@endsection
+
 @section('css')
 
     <link href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet">

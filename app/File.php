@@ -15,6 +15,11 @@ class File extends Model
 
     protected $casts = ['meta' => 'array'];
 
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+
     public function views()
     {
         return $this->hasMany(FileView::class);
