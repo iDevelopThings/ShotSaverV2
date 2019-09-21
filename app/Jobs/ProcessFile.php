@@ -3,6 +3,7 @@
 namespace App\Jobs;
 
 use App\Services\FileValidation;
+use Exception;
 use Illuminate\Bus\Queueable;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Queue\InteractsWithQueue;
@@ -84,6 +85,8 @@ class ProcessFile implements ShouldQueue
                 'ffprobe' => 'C:/ffmpeg/bin/ffprobe.exe',
             ], true);
         }
+
+        throw new \Exception('failed');
 
         $fileType = app(FileValidation::class)->fileType(\mime_content_type(\storage_path('app/' . $this->originalFile)));
 
@@ -231,5 +234,18 @@ class ProcessFile implements ShouldQueue
 
         $this->file->save();
 
+    }
+
+    public function failed(Exception $exception)
+    {
+
+        $this->file->status = 'failed';
+        $this->file->meta   = [
+            'message' => $exception->getMessage(),
+            'trace'   => $exception->getTrace(),
+            'line'    => $exception->getLine(),
+        ];
+
+        $this->file->save();
     }
 }

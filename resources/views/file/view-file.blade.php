@@ -21,6 +21,13 @@
             <h4>File is still processing...</h4>
             <p>We will refresh this page when it's complete.</p>
         </div>
+    @elseif($file->status === 'failed')
+        <div class="container text-center">
+            <h4>This file has failed to process...</h4>
+            <p>Reason: {{$file->meta['message']}}</p>
+
+            <strong>Please try again, if this error persists, please email sam@idevelopthings.com</strong>
+        </div>
     @else
         <div class="container">
             <div class="row justify-content-center">
