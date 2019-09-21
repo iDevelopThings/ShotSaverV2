@@ -61,7 +61,7 @@
             </div>-->
         </div>
 
-        <ul class="list-unstyled file-list" v-if="response">
+        <ul class="list-unstyled file-list" v-if="response && response.dataa.length">
             <li class="file-item" v-for="upload in response.data" :class="upload.loadingState ? 'disabled-state' : ''">
 
 
@@ -127,6 +127,12 @@
 
             </li>
         </ul>
+        <div v-else class="text-center py-5">
+            <h4>No Uploads</h4>
+            <p>
+                You have not uploaded any files yet.
+            </p>
+        </div>
     </div>
 
 </template>

@@ -15,7 +15,7 @@
     <script src="https://kit.fontawesome.com/c3a1de512c.js" crossorigin="anonymous"></script>
 
     <!-- Styles -->
-    <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    <link href="{{ mix('css/app.css') }}" rel="stylesheet">
 
     @yield('css')
 </head>
@@ -104,7 +104,7 @@
 
 </div>
 <!-- Scripts -->
-<script src="{{ asset('js/app.js') }}"></script>
+<script src="{{ mix('js/app.js') }}"></script>
 
 @yield('js')
 </body>
