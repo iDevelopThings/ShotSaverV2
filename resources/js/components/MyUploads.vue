@@ -61,7 +61,7 @@
             </div>-->
         </div>
 
-        <ul class="list-unstyled file-list" v-if="response && response.dataa.length">
+        <ul class="list-unstyled file-list" v-if="response && response.data.length">
             <li class="file-item" v-for="upload in response.data" :class="upload.loadingState ? 'disabled-state' : ''">
 
 
