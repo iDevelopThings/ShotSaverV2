@@ -1,0 +1,89 @@
+// Body
+$body-bg: #131e26;
+
+// Typography
+$font-family-sans-serif: "Montserrat", sans-serif;
+$font-size-base: 14;
+$line-height-base: 1.6;
+
+// Colors
+$blue: #3097D1;
+$indigo: #6574cd;
+$purple: #9561e2;
+$pink: #f66d9b;
+$red: #bf5329;
+$orange: #cbb956;
+$yellow: #ffed4a;
+$green: #2ab27b;
+$teal: #4dc0b5;
+$cyan: #8eb4cb;
+
+// Borders
+$laravel-border-color: darken($body-bg, 10%);
+$list-group-border: $laravel-border-color;
+$navbar-default-border: $laravel-border-color;
+$panel-default-border: $laravel-border-color;
+$panel-inner-border: $laravel-border-color;
+
+
+$text-color: #c0bcb5;
+$body-color: $text-color;
+$text-muted: darken($text-color, 10%);
+
+// Navbar
+$navbar-default-bg: #17181c;
+$navbar-default-link-color: #c8c5bf;
+$navbar-default-link-hover-color: #626be3;
+$navbar-default-link-active-color: #626be3;
+$navbar-padding-horizontal: 25px;
+$navbar-padding-vertical: 25px;
+
+// Buttons
+$btn-default-color: $text-color;
+$btn-default-bg: lighten($body-bg, 5%);
+$btn-default-border: lighten($body-bg, 5%);
+
+$btn-danger-border: $red;
+$btn-info-border: $cyan;
+$btn-success-border: $green;
+$btn-primary-border: $blue;
+
+// Inputs
+$input-border: lighten($text-color, 40%);
+$input-border-focus: lighten($blue, 25%);
+$input-color-placeholder: lighten($text-color, 30%);
+
+// Panels
+$card-default-heading-bg: #17181c;
+$card-default-text: $text-muted;
+$card-footer-bg: #17181c;
+$card-bg: #17181c;
+
+
+//Progress bars
+$progress-bg: lighten($body-bg, 10%);
+
+//Inputs
+$input-bg: lighten($body-bg, 5%);
+$input-color: $text-color;
+$input-border-color: lighten($body-bg, 10%);
+
+$input-bg-disabled: darken($body-bg, 10%);
+
+//Modals
+$modal-content-bg: lighten($body-bg, 5%);
+$modal-header-border-color: lighten($body-bg, 10%);
+$modal-footer-border-color: lighten($body-bg, 10%);
+
+//Dropdown
+$dropdown-color: $text-color;
+$dropdown-bg: $card-bg;
+
+$dropdown-link-color: $text-color;
+$dropdown-link-hover-color: $text-color;
+$dropdown-link-hover-bg: lighten($card-bg, 5%);
+
+$dropdown-link-active-color: $text-color;
+$dropdown-link-active-bg: #626be3;
+
+
