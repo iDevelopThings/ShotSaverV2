@@ -80,7 +80,7 @@ class FileController extends Controller
             'private' => $user->private_uploads,
         ]);
 
-        dispatch(new ProcessFile($fileModel, $userId, $originalFileLocation, $directory));
+        dispatch(new ProcessFile($fileModel, $user->id, $originalFileLocation, $directory));
 
         return route('view-file', $fileModel->name);
     }
