@@ -79,6 +79,7 @@ class FileController extends Controller
             'user_id' => $user->id,
             'name'    => $directory,
             'private' => $user->private_uploads,
+            'type'    => app(FileValidation::class)->fileType($file->getMimeType()),
         ]);
 
         dispatch(new ProcessFile($fileModel, $user->id, $originalFileLocation, $directory));

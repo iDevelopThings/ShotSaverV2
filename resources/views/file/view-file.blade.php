@@ -16,10 +16,27 @@
 @endsection
 
 @section('content')
+
+
     @if($file->status === 'processing')
-        <div class="container text-center">
-            <h4>File is still processing...</h4>
-            <p>We will refresh this page when it's complete.</p>
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-md-6 text-center">
+
+                    <div class="card">
+                        <div class="card-body">
+                            <h4 class="mb-4">Your file is processing...</h4>
+
+
+                            @if($file->type === 'video')
+                                <file-processing :file-id="{{$file->id}}"></file-processing>
+                            @else
+                                <p>We'll refresh the page when your file is ready</p>
+                            @endif
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     @elseif($file->status === 'failed')
         <div class="container text-center">
@@ -180,7 +197,7 @@
 @endsection
 
 @section('js')
-    @if($file->status === 'processing')
+    @if($file->status === 'processing' && $file->type !== 'video')
         <script>
             setTimeout(function () {
                 window.location = window.location;

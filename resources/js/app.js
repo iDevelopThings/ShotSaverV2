@@ -40,6 +40,10 @@ Vue.component(
     'my-uploads',
     require('./components/MyUploads').default
 );
+Vue.component(
+    'file-processing',
+    require('./components/FileProcessing').default
+);
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to

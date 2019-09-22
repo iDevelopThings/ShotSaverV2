@@ -24,6 +24,9 @@
         "vue-template-compiler": "^2.6.10"
     },
     "dependencies": {
+        "@adonisjs/websocket-client": "^1.0.9",
+        "animate.css": "^3.7.2",
+        "babel-polyfill": "^6.26.0",
         "bootstrap-switch": "^3.4.0",
         "moment": "^2.24.0"
     }
