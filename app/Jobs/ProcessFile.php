@@ -81,8 +81,9 @@ class ProcessFile implements ShouldQueue
     {
         if (app()->environment() === 'local') {
             $config = new Config([
-                'ffmpeg'  => 'C:/ffmpeg/bin/ffmpeg.exe',
-                'ffprobe' => 'C:/ffmpeg/bin/ffprobe.exe',
+                'ffmpeg'         => 'C:/ffmpeg/bin/ffmpeg.exe',
+                'ffprobe'        => 'C:/ffmpeg/bin/ffprobe.exe',
+                'temp_directory' => \storage_path('temp'),
             ], true);
         }
         $fileType = app(FileValidation::class)->fileType(\mime_content_type(\storage_path('app/' . $this->originalFile)));
@@ -91,13 +92,14 @@ class ProcessFile implements ShouldQueue
 
         if ($fileType === 'image') {
             $this->handleImage();
+            Storage::disk('processing')->deleteDirectory($this->directory);
         } elseif ($fileType === 'video') {
             $this->handleVideo();
         } else {
             $this->handleRegularFile();
+            Storage::disk('processing')->deleteDirectory($this->directory);
         }
 
-        Storage::disk('processing')->deleteDirectory($this->directory);
     }
 
     public function handleImage()
@@ -141,6 +143,20 @@ class ProcessFile implements ShouldQueue
     public function handleVideo()
     {
 
+        $client = new \GuzzleHttp\Client();
+        $client->post(env('APP_ENV') === 'local' ? 'http://127.0.0.1:3333/process' : 'https://processing.shotsaver.io/process', [
+            'form_params' => [
+                'directory' => $this->directory,
+                'folder'    => \storage_path('app/files-to-process/' . $this->directory),
+                'file'      => storage_path('app/' . $this->originalFile),
+                'file_id'   => $this->file->id,
+                'key'       => env('SECURE_KEY'),
+            ],
+        ]);
+
+        return;
+
+
         $video = new Video($this->videoPaths['original']);
 
         $od = $video->getOptimalDimensions(1920, 1080);
@@ -155,7 +171,6 @@ class ProcessFile implements ShouldQueue
         $outputFormat->setAudioBitrate('128k');
         $outputFormat->setVideoDimensions($od['padded_width'], $od['padded_height']);
         $video->save($this->videoPaths['hd'], $outputFormat);
-
 
         //Create 1920x1080 hd thumbnail
         $video        = new Video($this->videoPaths['hd']);

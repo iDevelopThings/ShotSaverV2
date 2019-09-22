@@ -10,6 +10,8 @@ use BoyHagemann\Waveform\Waveform;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
+use PHPVideoToolkit\Config;
+use PHPVideoToolkit\ProgressHandlerPortable;
 
 class FileController extends Controller
 {
@@ -46,7 +48,6 @@ class FileController extends Controller
                 abort(404);
             }
         }
-
 
         $file->saveView();
 
