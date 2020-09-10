@@ -92,9 +92,7 @@ class ProcessFile implements ShouldQueue
 				'temp_directory' => \storage_path('temp'),
 			], true);
 		} else {
-			$config = new Config([
-				'gif_transcoder' => 'convert'
-			], true);
+			$config = Config::getInstance();
 
 		}
 		$filePath = \storage_path('app/' . $this->originalFile);
@@ -126,8 +124,6 @@ class ProcessFile implements ShouldQueue
 
 	public function handleGif(Config $config)
 	{
-
-		$config->gif_transcoder = 'convert';
 
 		$format = Format::getFormatFor($this->gifPaths['hd'], $config, 'ImageFormat');
 		$format->setVideoFrameRate(12);
