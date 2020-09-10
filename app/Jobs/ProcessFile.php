@@ -38,6 +38,7 @@ class ProcessFile implements ShouldQueue
 	 */
 	private $videoPaths;
 	private $imagePaths;
+	private $gifPaths;
 
 	private $fileExtension;
 
@@ -66,6 +67,12 @@ class ProcessFile implements ShouldQueue
 			'thumb'    => storage_path('app/files-to-process/' . $this->directory . '/thumbnail.jpeg'),
 			'hd'       => storage_path('app/files-to-process/' . $this->directory . '/hd.jpeg'),
 			'sd'       => storage_path('app/files-to-process/' . $this->directory . '/sd.jpeg'),
+		];
+		$this->gifPaths = [
+			'original' => storage_path('app/' . $this->originalFile),
+			'thumb'    => storage_path('app/files-to-process/' . $this->directory . '/thumbnail.jpeg'),
+			'hd'       => storage_path('app/files-to-process/' . $this->directory . '/hd.gif'),
+			'sd'       => storage_path('app/files-to-process/' . $this->directory . '/sd.gif'),
 		];
 
 		$this->file = $file;
@@ -122,39 +129,39 @@ class ProcessFile implements ShouldQueue
 
 		$config->gif_transcoder = 'convert';
 
-		$format = Format::getFormatFor($this->imagePaths['hd'], $config, 'ImageFormat');
+		$format = Format::getFormatFor($this->gifPaths['hd'], $config, 'ImageFormat');
 		$format->setVideoFrameRate(12);
 
 		//Save HD original
-		$image  = new Image($this->imagePaths['original']);
-		$image->save($this->imagePaths['hd'], $format);
+		$image  = new Image($this->gifPaths['original']);
+		$image->save($this->gifPaths['hd'], $format);
 
 		//Save LD version
-		$image      = new Image($this->imagePaths['original']);
+		$image      = new Image($this->gifPaths['original']);
 		$dimensions = $image->readDimensions();
 		$format->setVideoDimensions($dimensions['width'] / 2, $dimensions['height'] / 2);
-		$image->save($this->imagePaths['sd'], $format);
+		$image->save($this->gifPaths['sd'], $format);
 
 		//Save thumbnail
-		$image      = new Image($this->imagePaths['original']);
+		$image      = new Image($this->gifPaths['original']);
 		$format     = new ImageFormat_Jpg();
 		$dimensions = $image->readDimensions();
 		$format->setVideoDimensions($dimensions['width'] / 4, $dimensions['height'] / 4);
-		$image->save($this->imagePaths['thumb'], $format);
+		$image->save($this->gifPaths['thumb'], $format);
 
 		//Save files to minio storage
-		Storage::cloud()->putFileAs($this->directory, new File($this->imagePaths['thumb']), 'thumb.jpeg', 'public');
-		Storage::cloud()->putFileAs($this->directory, new File($this->imagePaths['hd']), 'hd.gif', 'public');
-		Storage::cloud()->putFileAs($this->directory, new File($this->imagePaths['sd']), 'sd.gif', 'public');
+		Storage::cloud()->putFileAs($this->directory, new File($this->gifPaths['thumb']), 'thumb.jpeg', 'public');
+		Storage::cloud()->putFileAs($this->directory, new File($this->gifPaths['hd']), 'hd.gif', 'public');
+		Storage::cloud()->putFileAs($this->directory, new File($this->gifPaths['sd']), 'sd.gif', 'public');
 
 		//Update the file information that is stored in the database
-		$this->file->mime_type     = mime_content_type($this->imagePaths['hd']);
+		$this->file->mime_type     = mime_content_type($this->gifPaths['hd']);
 		$this->file->type          = app(FileValidation::class)->fileType($this->file->mime_type);
 		$this->file->hd            = "{$this->directory}/hd.gif";
 		$this->file->sd            = "{$this->directory}/sd.gif";
 		$this->file->thumb         = "{$this->directory}/thumb.jpeg";
 		$this->file->thumb_hd      = "{$this->directory}/hd.jpeg";
-		$this->file->size_in_bytes = (filesize($this->imagePaths['hd']) + filesize($this->imagePaths['sd']) + filesize($this->imagePaths['thumb']));
+		$this->file->size_in_bytes = (filesize($this->gifPaths['hd']) + filesize($this->gifPaths['sd']) + filesize($this->gifPaths['thumb']));
 		$this->file->status        = 'complete';
 		$this->file->save();
 	}
