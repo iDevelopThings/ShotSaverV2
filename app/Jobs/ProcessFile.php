@@ -84,6 +84,11 @@ class ProcessFile implements ShouldQueue
 				'ffprobe'        => 'C:/ffmpeg/bin/ffprobe.exe',
 				'temp_directory' => \storage_path('temp'),
 			], true);
+		} else {
+			$config = new Config([
+				'gif_transcoder' => 'convert'
+			], true);
+
 		}
 		$filePath = \storage_path('app/' . $this->originalFile);
 		$fileType = app(FileValidation::class)->fileType(\mime_content_type($filePath));
@@ -98,7 +103,7 @@ class ProcessFile implements ShouldQueue
 			}
 
 			if ($imageInfo[2] === IMAGETYPE_GIF) {
-				$this->handleGif();
+				$this->handleGif($config);
 			} else {
 				$this->handleImage();
 			}
@@ -112,13 +117,12 @@ class ProcessFile implements ShouldQueue
 
 	}
 
-	public function handleGif()
+	public function handleGif(Config $config)
 	{
-		$gifConfig = new Config([
-			'gif_transcoder' => 'convert'
-		]);
 
-		$format = new ImageFormat_Gif(Format::OUTPUT, $gifConfig);
+		$config->gif_transcoder = 'convert';
+
+		$format = Format::getFormatFor($this->imagePaths['hd'], $config, 'ImageFormat');
 		$format->setVideoFrameRate(12);
 
 		//Save HD original
