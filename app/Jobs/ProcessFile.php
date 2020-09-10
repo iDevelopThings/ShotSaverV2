@@ -12,6 +12,7 @@ use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use PHPVideoToolkit\Config;
+use PHPVideoToolkit\Format;
 use PHPVideoToolkit\Image;
 use PHPVideoToolkit\ImageFormat_Gif;
 use PHPVideoToolkit\ImageFormat_Jpg;
@@ -113,17 +114,19 @@ class ProcessFile implements ShouldQueue
 
 	public function handleGif()
 	{
-		//Save HD original
-		$image  = new Image($this->imagePaths['original']);
-		$format = new ImageFormat_Gif();
+		$gifConfig = new Config([
+			'gif_transcoder' => 'convert'
+		]);
+
+		$format = new ImageFormat_Gif(Format::OUTPUT, $gifConfig);
 		$format->setVideoFrameRate(12);
 
+		//Save HD original
+		$image  = new Image($this->imagePaths['original']);
 		$image->save($this->imagePaths['hd'], $format);
 
 		//Save LD version
 		$image      = new Image($this->imagePaths['original']);
-		$format     = new ImageFormat_Gif();
-		$format->setVideoFrameRate(12);
 		$dimensions = $image->readDimensions();
 		$format->setVideoDimensions($dimensions['width'] / 2, $dimensions['height'] / 2);
 		$image->save($this->imagePaths['sd'], $format);
