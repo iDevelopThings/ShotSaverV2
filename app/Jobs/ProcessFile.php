@@ -93,7 +93,10 @@ class ProcessFile implements ShouldQueue
 				'temp_directory' => \storage_path('temp'),
 			], true);
 		} else {
-			$config = Config::getInstance();
+			$config = new Config([
+				'gifsicle' => '/usr/bin/gifsicle',
+				'convert' => '/usr/local/bin/convert',
+			]);
 
 		}
 		$filePath = \storage_path('app/' . $this->originalFile);
@@ -129,11 +132,11 @@ class ProcessFile implements ShouldQueue
 		$format = Format::getFormatFor($this->gifPaths['hd'], $config, 'ImageFormat');
 		$format->setVideoFrameRate(12);
 
-		$gifAsImage = new Image($this->gifPaths['original']);
+		$gifAsImage = new Image($this->gifPaths['original'], $config);
 		$dimensions = $gifAsImage->readDimensions();
 
 		//Save HD original
-		$image  = new AnimatedGif($this->gifPaths['original']);
+		$image  = new AnimatedGif($this->gifPaths['original'], $config);
 		$image->save($this->gifPaths['hd'], $format);
 
 		//Save LD version
@@ -143,7 +146,7 @@ class ProcessFile implements ShouldQueue
 		$image->save($this->gifPaths['sd'], $format);
 
 		//Save thumbnail
-		$image      = new Image($this->gifPaths['original']);
+		$image      = new Image($this->gifPaths['original'], $config);
 		$format     = new ImageFormat_Jpg();
 		$format->setVideoDimensions($dimensions['width'] / 4, $dimensions['height'] / 4);
 		$image->save($this->gifPaths['thumb'], $format);
