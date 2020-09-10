@@ -116,11 +116,14 @@ class ProcessFile implements ShouldQueue
 		//Save HD original
 		$image  = new Image($this->imagePaths['original']);
 		$format = new ImageFormat_Gif();
+		$format->setVideoFrameRate(12);
+
 		$image->save($this->imagePaths['hd'], $format);
 
 		//Save LD version
 		$image      = new Image($this->imagePaths['original']);
 		$format     = new ImageFormat_Gif();
+		$format->setVideoFrameRate(12);
 		$dimensions = $image->readDimensions();
 		$format->setVideoDimensions($dimensions['width'] / 2, $dimensions['height'] / 2);
 		$image->save($this->imagePaths['sd'], $format);
