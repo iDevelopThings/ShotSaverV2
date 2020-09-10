@@ -136,12 +136,11 @@ class ProcessFile implements ShouldQueue
 		$dimensions = $gifAsImage->readDimensions();
 
 		//Save HD original
-		$image  = new AnimatedGif($this->gifPaths['original'], $config);
+		$image  = new Image($this->gifPaths['original'], $config);
 		$image->save($this->gifPaths['hd'], $format);
 
 		//Save LD version
-		$image      = new AnimatedGif($this->gifPaths['original']);
-
+		$image      = new Image($this->gifPaths['original'], $config);
 		$format->setVideoDimensions($dimensions['width'] / 2, $dimensions['height'] / 2);
 		$image->save($this->gifPaths['sd'], $format);
 
