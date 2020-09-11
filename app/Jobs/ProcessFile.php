@@ -11,11 +11,9 @@ use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
-use PHPVideoToolkit\AnimatedGif;
 use PHPVideoToolkit\Config;
 use PHPVideoToolkit\Format;
 use PHPVideoToolkit\Image;
-use PHPVideoToolkit\ImageFormat_Gif;
 use PHPVideoToolkit\ImageFormat_Jpg;
 use PHPVideoToolkit\Timecode;
 use PHPVideoToolkit\Video;
@@ -69,7 +67,7 @@ class ProcessFile implements ShouldQueue
 			'hd'       => storage_path('app/files-to-process/' . $this->directory . '/hd.jpeg'),
 			'sd'       => storage_path('app/files-to-process/' . $this->directory . '/sd.jpeg'),
 		];
-		$this->gifPaths = [
+		$this->gifPaths   = [
 			'original' => storage_path('app/' . $this->originalFile),
 			'thumb'    => storage_path('app/files-to-process/' . $this->directory . '/thumbnail.jpeg'),
 			'hd'       => storage_path('app/files-to-process/' . $this->directory . '/hd.gif'),
@@ -95,7 +93,7 @@ class ProcessFile implements ShouldQueue
 		} else {
 			$config = new Config([
 				'gifsicle' => '/usr/bin/gifsicle',
-				'convert' => '/usr/local/bin/convert',
+				'convert'  => '/usr/local/bin/convert',
 			]);
 
 		}
@@ -137,8 +135,8 @@ class ProcessFile implements ShouldQueue
 
 
 		//Save thumbnail
-		$image      = new Image($this->gifPaths['original'], $config);
-		$format     = new ImageFormat_Jpg();
+		$image  = new Image($this->gifPaths['original'], $config);
+		$format = new ImageFormat_Jpg();
 		$format->setVideoDimensions($dimensions['width'] / 4, $dimensions['height'] / 4);
 		$image->save($this->gifPaths['thumb'], $format);
 
@@ -154,27 +152,29 @@ class ProcessFile implements ShouldQueue
 		$this->file->thumb_hd      = "{$this->directory}/hd.jpeg";
 		$this->file->size_in_bytes = (filesize($this->gifPaths['original']) + filesize($this->gifPaths['thumb']));
 		$this->file->status        = 'complete';
+		$this->file->meta          = $this->meta($dimensions, ['hd', 'thumb']);
 		$this->file->save();
 	}
 
 	public function handleImage()
 	{
+
 		//Save HD original
-		$image  = new Image($this->imagePaths['original']);
-		$format = new ImageFormat_Jpg();
+		$image      = new Image($this->imagePaths['original']);
+		$dimensions = $image->readDimensions();
+		$format     = new ImageFormat_Jpg();
 		$image->save($this->imagePaths['hd'], $format);
 
 		//Save LD version
-		$image      = new Image($this->imagePaths['original']);
-		$format     = new ImageFormat_Jpg();
-		$dimensions = $image->readDimensions();
+		$image  = new Image($this->imagePaths['original']);
+		$format = new ImageFormat_Jpg();
+
 		$format->setVideoDimensions($dimensions['width'] / 2, $dimensions['height'] / 2);
 		$image->save($this->imagePaths['sd'], $format);
 
 		//Save thumbnail
-		$image      = new Image($this->imagePaths['original']);
-		$format     = new ImageFormat_Jpg();
-		$dimensions = $image->readDimensions();
+		$image  = new Image($this->imagePaths['original']);
+		$format = new ImageFormat_Jpg();
 		$format->setVideoDimensions($dimensions['width'] / 4, $dimensions['height'] / 4);
 		$image->save($this->imagePaths['thumb'], $format);
 
@@ -192,6 +192,7 @@ class ProcessFile implements ShouldQueue
 		$this->file->thumb_hd      = "{$this->directory}/hd.jpeg";
 		$this->file->size_in_bytes = (filesize($this->imagePaths['hd']) + filesize($this->imagePaths['sd']) + filesize($this->imagePaths['thumb']));
 		$this->file->status        = 'complete';
+		$this->file->meta          = $this->meta($dimensions, ['hd', 'sd', 'thumb']);
 		$this->file->save();
 	}
 
@@ -314,5 +315,23 @@ class ProcessFile implements ShouldQueue
 		];
 
 		$this->file->save();
+	}
+
+	public function meta($dimensions, $sizes)
+	{
+		$dimensionsMeta = [];
+		if (in_array('hd', $sizes)) {
+			$dimensionsMeta['hd'] = [$dimensions['width'], $dimensions['height']];
+		}
+		if (in_array('sd', $sizes)) {
+			$dimensionsMeta['sd'] = [$dimensions['width'] / 2, $dimensions['height'] / 2];
+		}
+		if (in_array('thumb', $sizes)) {
+			$dimensionsMeta['thumb'] = [$dimensions['width'] / 4, $dimensions['height'] / 4];
+		}
+
+		return [
+			'dimensions' => $dimensionsMeta,
+		];
 	}
 }
