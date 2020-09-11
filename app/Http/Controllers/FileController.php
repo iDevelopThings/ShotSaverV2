@@ -165,6 +165,20 @@ class FileController extends Controller
         return Storage::cloud()->download($file->hd, "{$file->name}.{$file->extension}");
     }
 
+    public function downloadLowDef(File $file)
+    {
+        if ($file->private) {
+            if (!auth()->user()) {
+                abort(404);
+            }
+            if (auth()->id() !== $file->user_id) {
+                abort(404);
+            }
+        }
+
+        return Storage::cloud()->download($file->sd, "{$file->name}.{$file->extension}");
+    }
+
     public function edit(File $file)
     {
         if (auth()->id() !== $file->user_id) {

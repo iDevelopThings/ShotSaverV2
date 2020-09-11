@@ -19,6 +19,7 @@ Route::middleware('auth:api')->group(function () {
     Route::post('/upload', 'FileController@upload');
     Route::get('/files', 'FileController@listFiles');
 
+    Route::get('/files/{file}/download/ld', 'FileController@downloadLowDef');
     Route::post('/files/{file}/favourite', 'FileController@favouriteToggle');
     Route::post('/files/{file}/delete', 'FileController@delete');
 
