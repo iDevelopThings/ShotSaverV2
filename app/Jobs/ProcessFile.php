@@ -135,14 +135,6 @@ class ProcessFile implements ShouldQueue
 		$gifAsImage = new Image($this->gifPaths['original'], $config);
 		$dimensions = $gifAsImage->readDimensions();
 
-		//Save HD original
-		$image  = new Image($this->gifPaths['original'], $config);
-		$image->save($this->gifPaths['hd'], $format);
-
-		//Save LD version
-		$image      = new Image($this->gifPaths['original'], $config);
-		$format->setVideoDimensions($dimensions['width'] / 2, $dimensions['height'] / 2);
-		$image->save($this->gifPaths['sd'], $format);
 
 		//Save thumbnail
 		$image      = new Image($this->gifPaths['original'], $config);
@@ -152,17 +144,15 @@ class ProcessFile implements ShouldQueue
 
 		//Save files to minio storage
 		Storage::cloud()->putFileAs($this->directory, new File($this->gifPaths['thumb']), 'thumb.jpeg', 'public');
-		Storage::cloud()->putFileAs($this->directory, new File($this->gifPaths['hd']), 'hd.gif', 'public');
-		Storage::cloud()->putFileAs($this->directory, new File($this->gifPaths['sd']), 'sd.gif', 'public');
+		Storage::cloud()->putFileAs($this->directory, new File($this->gifPaths['original']), 'hd.gif', 'public');
 
 		//Update the file information that is stored in the database
-		$this->file->mime_type     = mime_content_type($this->gifPaths['hd']);
+		$this->file->mime_type     = mime_content_type($this->gifPaths['original']);
 		$this->file->type          = app(FileValidation::class)->fileType($this->file->mime_type);
 		$this->file->hd            = "{$this->directory}/hd.gif";
-		$this->file->sd            = "{$this->directory}/sd.gif";
 		$this->file->thumb         = "{$this->directory}/thumb.jpeg";
 		$this->file->thumb_hd      = "{$this->directory}/hd.jpeg";
-		$this->file->size_in_bytes = (filesize($this->gifPaths['hd']) + filesize($this->gifPaths['sd']) + filesize($this->gifPaths['thumb']));
+		$this->file->size_in_bytes = (filesize($this->gifPaths['original']) + filesize($this->gifPaths['thumb']));
 		$this->file->status        = 'complete';
 		$this->file->save();
 	}
