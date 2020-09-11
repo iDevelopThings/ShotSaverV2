@@ -3,6 +3,7 @@
 namespace App\Jobs;
 
 use App\Services\FileValidation;
+use App\User;
 use Exception;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -199,15 +200,22 @@ class ProcessFile implements ShouldQueue
 	public function handleVideo()
 	{
 
+		$user = User::find($this->userId);
+
+		$params = [
+			'directory' => $this->directory,
+			'folder'    => \storage_path('app/files-to-process/' . $this->directory),
+			'file'      => storage_path('app/' . $this->originalFile),
+			'file_id'   => $this->file->id,
+			'key'       => env('SECURE_KEY'),
+		];
+
+		if($user->low_def_only)
+			$params['low_def'] = true;
+
 		$client = new \GuzzleHttp\Client();
 		$client->post(env('APP_ENV') === 'local' ? 'http://127.0.0.1:3333/process' : 'https://processing.shotsaver.io/process', [
-			'form_params' => [
-				'directory' => $this->directory,
-				'folder'    => \storage_path('app/files-to-process/' . $this->directory),
-				'file'      => storage_path('app/' . $this->originalFile),
-				'file_id'   => $this->file->id,
-				'key'       => env('SECURE_KEY'),
-			],
+			'form_params' => $params,
 		]);
 
 		return;

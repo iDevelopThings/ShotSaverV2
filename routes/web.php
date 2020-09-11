@@ -29,6 +29,8 @@ Route::middleware('auth')->group(function () {
     Route::get('/settings/account', 'SettingsController@account')->name('settings.account');
     Route::post('/settings/account', 'SettingsController@saveAccount')->name('settings.save-account');
     Route::get('/settings/api', 'SettingsController@api')->name('settings.api');
+    Route::get('/settings/webhooks', 'SettingsController@webhooks')->name('settings.webhooks');
+    Route::post('/settings/webhooks', 'SettingsController@saveWebhooks')->name('settings.save-webhooks');
     Route::get('/settings/upload-preferences', 'SettingsController@uploadPreferences')->name('settings.upload-preferences');
     Route::post('/settings/upload-preferences', 'SettingsController@saveUploadPreferences')->name('settings.save-upload-preferences');
 });

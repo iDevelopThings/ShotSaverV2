@@ -20,6 +20,9 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+	    'webhook_url',
+	    'webhook_key',
+	    'low_def_only',
     ];
 
     /**
@@ -30,6 +33,9 @@ class User extends Authenticatable
     protected $hidden = [
         'password',
         'remember_token',
+        'webhook_url',
+        'webhook_key',
+        'low_def_only',
     ];
 
     /**

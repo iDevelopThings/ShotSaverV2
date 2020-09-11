@@ -30,6 +30,21 @@
                                {{auth()->user()->private_uploads ? 'checked' : ''}} id="toggle">
                     </div>
                 </div>
+                <div class="setting-item">
+                    <div class="explainer">
+                        <strong>
+                            Low Def Processing
+                        </strong>
+                        <p>
+                            This should only be used if you want to use ShotSaver for video processing. <strong>If you toggle this on a user account, you won't see progress updates and such. This will call your webhook when complete.</strong>
+                        </p>
+                    </div>
+                    <div class="setting-toggle">
+                        <input type="checkbox"
+                               name="low_def_only"
+                               {{auth()->user()->low_def_only ? 'checked' : ''}} id="low_def_only_toggle">
+                    </div>
+                </div>
             </div>
             <div class="card-footer text-right">
                 <button class="btn btn-primary">
@@ -50,6 +65,12 @@
                 off      : 'Public',
                 onstyle  : 'success',
                 offstyle : 'danger'
+            });
+            $('#low_def_only_toggle').bootstrapToggle({
+                on       : 'LD',
+                off      : 'HD',
+                onstyle  : 'danger',
+                offstyle : 'success'
             });
         })
     </script>

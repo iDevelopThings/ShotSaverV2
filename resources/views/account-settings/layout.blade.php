@@ -24,6 +24,12 @@
                             Preferences
                         </a>
                     </li>
+                    <li>
+                        <a href="{{route('settings.webhooks')}}"
+                           @if(request()->routeIs('settings.webhooks')) class="active" @endif>
+                            Webhooks
+                        </a>
+                    </li>
                 </ul>
             </div>
             <div class="col-md-9">

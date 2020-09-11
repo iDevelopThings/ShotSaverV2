@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "064e4d7dae1a0c510093a709f152e42c",
+    "content-hash": "2d58f1aa9e3e01f82d34892962b05471",
     "packages": [
         {
             "name": "aws/aws-sdk-php",
@@ -1545,6 +1545,53 @@
             ],
             "description": "Flysystem adapter for the AWS S3 SDK v3.x",
             "time": "2019-06-05T17:18:29+00:00"
+        },
+        {
+            "name": "league/flysystem-ziparchive",
+            "version": "1.0.3",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/thephpleague/flysystem-ziparchive.git",
+                "reference": "c6d7c7ea23a57ee802d533ab9eb9f19dd5c5fc45"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/thephpleague/flysystem-ziparchive/zipball/c6d7c7ea23a57ee802d533ab9eb9f19dd5c5fc45",
+                "reference": "c6d7c7ea23a57ee802d533ab9eb9f19dd5c5fc45",
+                "shasum": ""
+            },
+            "require": {
+                "ext-zip": "*",
+                "league/flysystem": "~1.0",
+                "php": ">=5.4.0"
+            },
+            "require-dev": {
+                "mockery/mockery": "0.9.*",
+                "phpunit/phpunit": "~4.0"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.0-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "League\\Flysystem\\ZipArchive\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Frank de Jonge",
+                    "email": "info@frenky.net"
+                }
+            ],
+            "description": "Flysystem adapter for ZipArchive's",
+            "time": "2016-12-20T08:36:16+00:00"
         },
         {
             "name": "league/oauth2-server",
