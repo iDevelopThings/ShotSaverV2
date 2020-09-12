@@ -115,12 +115,14 @@ class ProcessFile implements ShouldQueue
 			} else {
 				$this->handleImage();
 			}
-			Storage::disk('processing')->deleteDirectory($this->directory);
+			dispatch(new SendWebhooks($this->file->id));
+			dispatch(new SetFileVisibility($this->file->id));
 		} elseif ($fileType === 'video') {
 			$this->handleVideo();
 		} else {
 			$this->handleRegularFile();
-			Storage::disk('processing')->deleteDirectory($this->directory);
+			dispatch(new SendWebhooks($this->file->id));
+			dispatch(new SetFileVisibility($this->file->id));
 		}
 
 	}
@@ -212,11 +214,8 @@ class ProcessFile implements ShouldQueue
 		];
 
 		$client = new \GuzzleHttp\Client();
-		$url = "";
-		/*if(env('APP_ENV') === 'local')
-			$url = 'http://127.0.0.1:3333/process';
-		else*/
-			$url = 'https://processing.shotsaver.io/process';
+
+		$url = 'https://processing.shotsaver.io/process';
 		$client->post($url, [
 			'form_params' => $params,
 		]);
