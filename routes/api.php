@@ -13,7 +13,7 @@ use Illuminate\Http\Request;
 |
 */
 
-Route::middleware('auth:secure-key')->group(function () {
+Route::middleware('auth.secure-key')->group(function () {
 	Route::post('/processing/callback', 'FileProcessing@callback');
 });
 Route::middleware('auth:api')->group(function () {
