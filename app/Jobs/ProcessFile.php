@@ -56,11 +56,11 @@ class ProcessFile implements ShouldQueue
 		$this->fileExtension = pathinfo(\storage_path('app/' . $this->originalFile), PATHINFO_EXTENSION);
 
 		$this->videoPaths = [
-			'original' => storage_path('app/' . $this->originalFile),
-			'thumb'    => storage_path('app/files-to-process/' . $this->directory . '/thumbnail.jpeg'),
-			'thumb-hd' => storage_path('app/files-to-process/' . $this->directory . '/thumbnail-hd.jpeg'),
-			'hd'       => storage_path('app/files-to-process/' . $this->directory . '/transcoded-hd.mp4'),
-			'sd'       => storage_path('app/files-to-process/' . $this->directory . '/transcoded-sd.mp4'),
+			'original' => storage_path('app\\' . $this->originalFile),
+			'thumb'    => storage_path('app\\files-to-process\\' . $this->directory . '\\thumbnail.jpeg'),
+			'thumb-hd' => storage_path('app\\files-to-process\\' . $this->directory . '\\thumbnail-hd.jpeg'),
+			'hd'       => storage_path('app\\files-to-process\\' . $this->directory . '\\transcoded-hd.mp4'),
+			'sd'       => storage_path('app\\files-to-process\\' . $this->directory . '\\transcoded-sd.mp4'),
 		];
 		$this->imagePaths = [
 			'original' => storage_path('app/' . $this->originalFile),
@@ -204,17 +204,20 @@ class ProcessFile implements ShouldQueue
 
 		$params = [
 			'directory' => $this->directory,
-			'folder'    => \storage_path('app/files-to-process/' . $this->directory),
-			'file'      => storage_path('app/' . $this->originalFile),
+			'folder'    => storage_path('app\\files-to-process\\' . $this->directory),
+			'file'      => storage_path('app\\' . $this->originalFile),
 			'file_id'   => $this->file->id,
 			'key'       => env('SECURE_KEY'),
+			'user_id'   => $user->id,
 		];
 
-		if($user->low_def_only)
-			$params['low_def'] = true;
-
 		$client = new \GuzzleHttp\Client();
-		$client->post(env('APP_ENV') === 'local' ? 'http://127.0.0.1:3333/process' : 'https://processing.shotsaver.io/process', [
+		$url = "";
+		/*if(env('APP_ENV') === 'local')
+			$url = 'http://127.0.0.1:3333/process';
+		else*/
+			$url = 'https://processing.shotsaver.io/process';
+		$client->post($url, [
 			'form_params' => $params,
 		]);
 

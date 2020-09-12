@@ -8,13 +8,13 @@
                     <button type="button"
                             :disabled="paginating || (response.meta.current_page <= 1)"
                             class="btn btn-default"
-                            @click="getUploads('back')">
+                            @click="getMyFavourites('back')">
                         <i class="fa fa-arrow-left"></i>
                     </button>
                     <button type="button"
                             :disabled="paginating || (response.meta.current_page >= response.meta.last_page)"
                             class="btn btn-default"
-                            @click="getUploads('forward')">
+                            @click="getMyFavourites('forward')">
                         <i class="fa fa-arrow-right"></i>
                     </button>
                 </div>
@@ -73,9 +73,9 @@
             </div>
 
             <div v-else class="text-center py-5">
-                <h4>No Uploads</h4>
+                <h4>No Favourites</h4>
                 <p>
-                    You have not uploaded any files yet.
+                    Click the favourite button on any file to save it in this list.
                 </p>
             </div>
         </div>
@@ -84,66 +84,64 @@
 </template>
 
 <script>
-    export default {
-        name    : "MyUploads",
-        mounted()
-        {
-            this.getUploads();
-        },
-        data()
-        {
-            return {
-                response   : null,
-                paginating : false,
-                loading    : false,
-                error      : null,
-                page       : 1,
+	export default {
+		name    : "MyFavourites",
+		mounted()
+		{
+			this.getMyFavourites();
+		},
+		data()
+		{
+			return {
+				response   : null,
+				paginating : false,
+				loading    : false,
+				error      : null,
+				page       : 1,
 
-                uploadToPreview : null,
+				uploadToPreview : null,
 
-                filters : {
-                    filter : 'created',
-                    order  : 'desc',
-                }
-            };
-        },
-        methods : {
+				filters : {
+					filter : 'created',
+					order  : 'desc',
+				}
+			};
+		},
+		methods : {
 
-            /**
-             * Get a paginated list of the users uploads
-             */
-            getUploads(type = null)
-            {
-                let page = this.page;
-                if (type === 'forward') {
-                    if (this.response && this.response.meta.last_page === page) return;
-                    page++;
-                    this.paginating = true;
+			/**
+			 * Get a paginated list of the users favourites
+			 */
+			getMyFavourites(type = null)
+			{
+				let page = this.page;
+				if (type === 'forward') {
+					if (this.response && this.response.meta.last_page === page) return;
+					page++;
+					this.paginating = true;
 
-                } else if (type === 'back') {
-                    if (page === 1) return;
+				} else if (type === 'back') {
+					if (page === 1) return;
 
-                    page--;
-                    this.paginating = true;
-                }
+					page--;
+					this.paginating = true;
+				}
 
-                console.log(page);
+				this.loading = true;
+				axios.get(`/api/favourites?page=${page}`)
+					.then(response => {
+						this.response   = response.data;
+						this.page       = parseInt(response.data.meta.current_page);
+						this.loading    = false;
+						this.paginating = false;
+					})
+					.catch(error => {
+						this.error      = 'Failed to load uploads. Please try again later or contact support.';
+						this.loading    = false;
+						this.paginating = false;
+					});
+			}
 
-                this.loading = true;
-                axios.get(`/api/files?page=${page}`)
-                    .then(response => {
-                        this.response   = response.data;
-                        this.page       = parseInt(response.data.meta.current_page);
-                        this.loading    = false;
-                        this.paginating = false;
-                    })
-                    .catch(error => {
-                        this.error      = 'Failed to load uploads. Please try again later or contact support.';
-                        this.loading    = false;
-                        this.paginating = false;
-                    })
-            },
-
-        }
-    }
+		}
+	};
 </script>

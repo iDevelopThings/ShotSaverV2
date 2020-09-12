@@ -22,6 +22,7 @@ Route::get('/files/{file}/download', 'FileController@download')->name('download-
 
 Route::middleware('auth')->group(function () {
     Route::get('/uploads', 'FileController@uploads')->name('home');
+    Route::get('/favourites', 'FileController@favourites')->name('favourites');
 
     Route::post('/files/{file}/favourite', 'FileController@favouriteToggle')->name('favourite-file');
     Route::post('/files/{file}/edit', 'FileController@edit')->name('edit-file');

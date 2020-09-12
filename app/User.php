@@ -52,8 +52,8 @@ class User extends Authenticatable
         return $this->hasMany(File::class);
     }
 
-    public function favourites()
+    public function favouriteFiles()
     {
-        return $this->hasMany(FileFavourite::class);
+        return $this->hasManyThrough(File::class, FileFavourite::class, 'user_id', 'id', 'id', 'file_id');
     }
 }

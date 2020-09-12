@@ -16,8 +16,8 @@ window.Vue = require('vue');
  * Eg. ./components/ExampleComponent.vue -> <example-component></example-component>
  */
 Vue.filter('from', (e) => {
-    let local = moment(e).utc(e).local();
-    return moment(local).fromNow();
+    //let local = moment(e).local();
+    return moment(e).local().fromNow();
 });
 
 // const files = require.context('./', true, /\.vue$/i)
@@ -37,8 +37,16 @@ Vue.component(
     require('./components/passport/PersonalAccessTokens.vue').default
 );
 Vue.component(
+    'file-block',
+    require('./components/FileBlock').default
+);
+Vue.component(
     'my-uploads',
     require('./components/MyUploads').default
+);
+Vue.component(
+    'my-favourites',
+    require('./components/MyFavourites').default
 );
 Vue.component(
     'file-processing',

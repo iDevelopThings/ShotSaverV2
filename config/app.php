@@ -226,4 +226,5 @@ return [
 
     ],
 
+	'secure_key' => env('SECURE_KEY')
 ];

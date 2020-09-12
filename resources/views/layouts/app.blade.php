@@ -45,7 +45,10 @@
 
                     @else
                         <li class="nav-item @if(request()->is('uploads')) active @endif">
-                            <a class="nav-link" href="{{ url('/uploads') }}">Uploads</a>
+                            <a class="nav-link" href="{{ route('home') }}">Uploads</a>
+                        </li>
+                        <li class="nav-item @if(request()->is('favourites')) active @endif">
+                            <a class="nav-link" href="{{ route('favourites') }}">Favourites</a>
                         </li>
                     @endguest
                 </ul>
