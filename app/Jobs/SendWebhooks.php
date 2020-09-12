@@ -40,19 +40,23 @@ class SendWebhooks implements ShouldQueue
 	 */
 	public function handle()
 	{
-		$user = User::whereId($this->file->user_id)->first();
+		try {
+			$user = User::whereId($this->file->user_id)->first();
 
-		if($user->webhook_url === null)
-		{
-			return $this->delete();
+			if($user->webhook_url === null)
+			{
+				return $this->delete();
+			}
+			$client = new \GuzzleHttp\Client();
+			$url    = "{$user->webhook_url}?secret={$user->webhook_key}";
+			$client->post($url, [
+				'form_params' => [
+					'fileInfo' => json_encode($this->file),
+					'url'      => $this->file->file($this->file->hd ? 'hd' : 'sd'),
+				],
+			]);
+		} catch(\Exception $exception) {
+			\Log::error($exception->getMessage());
 		}
-		$client = new \GuzzleHttp\Client();
-		$url    = "{$user->webhook_url}?secret={$user->webhook_key}";
-		$client->post($url, [
-			'form_params' => [
-				'fileInfo' => json_encode($this->file),
-				'url'      => $this->file->file($this->file->hd ? 'hd' : 'sd'),
-			],
-		]);
 	}
 }
