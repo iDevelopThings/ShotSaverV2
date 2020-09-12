@@ -85,7 +85,7 @@ class FileController extends Controller
 
 		$directory = Str::random();
 		$fileName = Str::random() . '.' . $file->getClientOriginalExtension();
-		$originalFileLocation = $file->storeAs('files-to-process\\' . $directory, $fileName);
+		$originalFileLocation = $file->storeAs('files-to-process/' . $directory, $fileName);
 
 		$fileModel = File::create([
 			'user_id' => $user->id,
