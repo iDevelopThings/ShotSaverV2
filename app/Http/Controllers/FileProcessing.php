@@ -19,7 +19,6 @@ class FileProcessing extends Controller
 		if(!File::whereId(request('file_id'))->first())
 			return response()->json(['message' => 'File not found.'], 404);
 
-		dispatch(new SendWebhooks(request('file_id')));
 		dispatch(new SetFileVisibility(request('file_id')));
     }
 }

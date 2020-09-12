@@ -44,5 +44,12 @@ class SetFileVisibility implements ShouldQueue
 
 		//Delete the temporary folder that was created to process the files...
 	    Storage::disk('processing')->deleteDirectory($this->file->name);
+
+        //Now we set the file as complete
+        $this->file->status = 'complete';
+        $this->file->save();
+
+        //We're all done, dispatch the webhooks
+	    dispatch(new SendWebhooks($this->file->id));
     }
 }

@@ -115,13 +115,11 @@ class ProcessFile implements ShouldQueue
 			} else {
 				$this->handleImage();
 			}
-			dispatch(new SendWebhooks($this->file->id));
 			dispatch(new SetFileVisibility($this->file->id));
 		} elseif ($fileType === 'video') {
 			$this->handleVideo();
 		} else {
 			$this->handleRegularFile();
-			dispatch(new SendWebhooks($this->file->id));
 			dispatch(new SetFileVisibility($this->file->id));
 		}
 
@@ -154,7 +152,7 @@ class ProcessFile implements ShouldQueue
 		$this->file->thumb         = "{$this->directory}/thumb.jpeg";
 		$this->file->thumb_hd      = "{$this->directory}/hd.jpeg";
 		$this->file->size_in_bytes = (filesize($this->gifPaths['original']) + filesize($this->gifPaths['thumb']));
-		$this->file->status        = 'complete';
+		//$this->file->status        = 'complete';
 		$this->file->meta          = $this->meta($dimensions, ['hd', 'thumb']);
 		$this->file->save();
 	}
@@ -194,7 +192,7 @@ class ProcessFile implements ShouldQueue
 		$this->file->thumb         = "{$this->directory}/thumb.jpeg";
 		$this->file->thumb_hd      = "{$this->directory}/hd.jpeg";
 		$this->file->size_in_bytes = (filesize($this->imagePaths['hd']) + filesize($this->imagePaths['sd']) + filesize($this->imagePaths['thumb']));
-		$this->file->status        = 'complete';
+		//$this->file->status        = 'complete';
 		$this->file->meta          = $this->meta($dimensions, ['hd', 'sd', 'thumb']);
 		$this->file->save();
 	}
@@ -301,7 +299,7 @@ class ProcessFile implements ShouldQueue
 		 $this->file->thumb         = "{$this->directory}/thumb.jpeg";
 		 $this->file->thumb_hd      = "{$this->directory}/thumb-hd.jpeg";*/
 		$this->file->size_in_bytes = filesize($filePath);
-		$this->file->status        = 'complete';
+		//$this->file->status        = 'complete';
 
 		if ($codeInfo = app(FileValidation::class)->isCodeFile($this->fileExtension)) {
 			$this->file->meta = $codeInfo;
