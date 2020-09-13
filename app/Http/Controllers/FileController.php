@@ -75,9 +75,8 @@ class FileController extends Controller
 	 *
 	 * @return Factory|View
 	 */
-	public function getUrl($file, $name)
+	public function getUrl(File $file, $name)
 	{
-		$file = File::where('name', $file)->first();
 
 		if(!in_array($name, ['hd', 'sd', 'thumb', 'thumb_hd']))
 			abort(404);
