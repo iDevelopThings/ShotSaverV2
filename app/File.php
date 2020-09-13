@@ -83,14 +83,14 @@ class File extends Model
 	public function finishProcessing()
 	{
 		//Set the S3 visibility
-		if($this->private) {
+		/*if($this->private) {
 			$this->setPrivate();
 		} else {
 			$this->setPublic();
-		}
+		}*/
 
 		//Delete the temporary folder that was created to process the files...
-		Storage::disk('processing')->deleteDirectory($this->name);
+		//Storage::disk('processing')->deleteDirectory($this->name);
 
 		//Now we set the file as complete
 		$this->status = 'complete';
