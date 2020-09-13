@@ -69,6 +69,42 @@ class FileController extends Controller
 	}
 
 	/**
+	 * Get a url for a specific file
+	 *
+	 * @param $file
+	 *
+	 * @return Factory|View
+	 */
+	public function getUrl($file, $name)
+	{
+		$file = File::where('name', $file)->first();
+
+		if(!in_array($name, ['hd', 'sd', 'thumb', 'thumb_hd']))
+			abort(404);
+
+		if (!$file) {
+			abort(404);
+		}
+
+		if ($file->private) {
+			if (!auth()->user()) {
+				abort(404);
+			}
+			if (auth()->id() !== $file->user_id) {
+				abort(404);
+			}
+		}
+
+		/*Storage::cloud()->temporaryUrl(
+			'file1.jpg', Carbon::now()->addMinutes(5)
+		);*/
+
+
+
+		return Storage::cloud()->download($file->{$name}, "{$name}.{$file->extension}");
+	}
+
+	/**
 	 * Upload a file to shotsaver
 	 *
 	 * @return string

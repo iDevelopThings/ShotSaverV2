@@ -18,6 +18,7 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/file/{file}', 'FileController@view')->name('view-file');
+Route::get('/file/url/{file}/{name}', 'FileController@getUrl')->name('get-file-url');
 Route::get('/files/{file}/download', 'FileController@download')->name('download-file');
 
 Route::middleware('auth')->group(function () {

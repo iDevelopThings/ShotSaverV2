@@ -46,6 +46,11 @@
             <strong>Please try again, if this error persists, please email sam@idevelopthings.com</strong>
         </div>
     @else
+
+        @php($hdFile = url("/file/url/{$file->id}/hd"))
+        @php($sdFile = url("/file/url/{$file->id}/sd"))
+        @php($thumb = url("/file/url/{$file->id}/thumb"))
+
         <div class="container">
             <div class="row justify-content-center">
                 <div class="col-md-12">
@@ -117,9 +122,9 @@
                                    id="myvideo"
                                    width="1920"
                                    height="1080"
-                                   poster="{{$file->file('thumb')}}">
-                                <source type="video/mp4" src="{{$file->file('sd')}}" />
-                                <source type="video/mp4" src="{{$file->file('hd')}}" data-quality="hd" />
+                                   poster="{{$thumb}}">
+                                <source type="video/mp4" src="{{$sdFile}}" />
+                                <source type="video/mp4" src="{{$hdFile}}" data-quality="hd" />
                             </video>
                         </div>
 
