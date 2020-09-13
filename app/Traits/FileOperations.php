@@ -28,6 +28,7 @@ trait FileOperations
 		$client         = Storage::disk('minio')->getDriver()->getAdapter()->getClient();
 		$policyReadOnly = '{
 			  "Version": "2012-10-17",
+			  "Id" : "FilePolicy'.$this->id.'",
 			  "Statement": [
 			    {
 			      "Action": [
@@ -42,7 +43,7 @@ trait FileOperations
 			      "Resource": [
 			        "arn:aws:s3:::%s/%s/*"
 			      ],
-			      "Sid": ""
+			      "Sid": "FilePolicy'.$this->id.'"
 			    }
 			  ]
 			}
@@ -67,6 +68,7 @@ trait FileOperations
 		$client         = Storage::disk('minio')->getDriver()->getAdapter()->getClient();
 		$policyReadOnly = '{
 			  "Version": "2012-10-17",
+			  "Id" : "FilePolicy'.$this->id.'",
 			  "Statement": [
 			    {
 			      "Action": [
@@ -81,7 +83,7 @@ trait FileOperations
 			      "Resource": [
 			        "arn:aws:s3:::%s/%s/*"
 			      ],
-			      "Sid": ""
+			      "Sid": "FilePolicy'.$this->id.'"
 			    }
 			  ]
 			}
