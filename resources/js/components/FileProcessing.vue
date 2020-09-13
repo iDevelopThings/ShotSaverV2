@@ -43,16 +43,12 @@
         props    : ['fileId'],
         mounted()
         {
-
-            console.log(process.env.NODE_ENV);
             this.ws = Ws(process.env.NODE_ENV === 'development' ? 'ws://localhost:3333' : 'wss://processing.shotsaver.io');
             this.ws.connect();
 
             this.subscription = this.ws.subscribe('file:' + this.fileId);
 
             this.subscription.on('progress', (data) => {
-                console.log(data);
-
                 if (this.currentStage !== data.type)
                     this.currentStage = null;
 

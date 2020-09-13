@@ -76,4 +76,25 @@ class File extends Model
 		return $bytes;
 	}
 
+	/**
+	 * This will set our file public/private on our S3 storage
+	 * Delete the original non-processed files and set our status as complete
+	 */
+	public function finishProcessing()
+	{
+		//Set the S3 visibility
+		if($this->private) {
+			$this->setPrivate();
+		} else {
+			$this->setPublic();
+		}
+
+		//Delete the temporary folder that was created to process the files...
+		Storage::disk('processing')->deleteDirectory($this->name);
+
+		//Now we set the file as complete
+		$this->status = 'complete';
+		$this->save();
+	}
+
 }

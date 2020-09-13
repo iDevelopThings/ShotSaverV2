@@ -20,7 +20,7 @@ class SendWebhooks implements ShouldQueue
 	 */
 	private $file;
 
-	public $tries = 5;
+	public $tries = 1;
 
 	/**
 	 * Create a new job instance.
@@ -40,13 +40,9 @@ class SendWebhooks implements ShouldQueue
 	 */
 	public function handle()
 	{
-		try {
-			$user = User::whereId($this->file->user_id)->first();
+		$user = User::whereId($this->file->user_id)->first();
 
-			if($user->webhook_url === null)
-			{
-				return $this->delete();
-			}
+		if ($user->webhook_url !== null) {
 			$client = new \GuzzleHttp\Client();
 			$url    = "{$user->webhook_url}?secret={$user->webhook_key}";
 			$client->post($url, [
@@ -55,8 +51,6 @@ class SendWebhooks implements ShouldQueue
 					'url'      => $this->file->file($this->file->hd ? 'hd' : 'sd'),
 				],
 			]);
-		} catch(\Exception $exception) {
-			\Log::error($exception->getMessage());
 		}
 	}
 }

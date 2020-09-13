@@ -115,12 +115,16 @@ class ProcessFile implements ShouldQueue
 			} else {
 				$this->handleImage();
 			}
-			dispatch(new SetFileVisibility($this->file->id));
 		} elseif ($fileType === 'video') {
 			$this->handleVideo();
 		} else {
 			$this->handleRegularFile();
-			dispatch(new SetFileVisibility($this->file->id));
+		}
+
+		//If our file isnt a video we'll send our webhooks
+		//Webhooks are triggered by the processing server for videos.
+		if($fileType !== 'video') {
+			dispatch(new SendWebhooks(request('file_id')));
 		}
 
 	}
@@ -155,6 +159,8 @@ class ProcessFile implements ShouldQueue
 		//$this->file->status        = 'complete';
 		$this->file->meta          = $this->meta($dimensions, ['hd', 'thumb']);
 		$this->file->save();
+
+		$this->file->finishProcessing();
 	}
 
 	public function handleImage()
@@ -195,6 +201,7 @@ class ProcessFile implements ShouldQueue
 		//$this->file->status        = 'complete';
 		$this->file->meta          = $this->meta($dimensions, ['hd', 'sd', 'thumb']);
 		$this->file->save();
+		$this->file->finishProcessing();
 	}
 
 	public function handleVideo()
@@ -309,6 +316,7 @@ class ProcessFile implements ShouldQueue
 		}
 
 		$this->file->save();
+		$this->file->finishProcessing();
 
 	}
 

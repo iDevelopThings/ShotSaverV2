@@ -14,6 +14,7 @@ use Illuminate\Http\Request;
 */
 
 Route::middleware('auth.secure-key')->group(function () {
+	Route::post('/processing/finish-up', 'FileProcessing@finish');
 	Route::post('/processing/callback', 'FileProcessing@callback');
 });
 Route::middleware('auth:api')->group(function () {
