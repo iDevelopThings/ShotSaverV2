@@ -94,13 +94,7 @@ class FileController extends Controller
 			}
 		}
 
-		/*Storage::cloud()->temporaryUrl(
-			'file1.jpg', Carbon::now()->addMinutes(5)
-		);*/
-
-
-
-		return Storage::cloud()->download($file->{$name}, "{$name}.{$file->extension}");
+		return Storage::disk('minio')->download($file->{$name}, "{$name}.{$file->extension}");
 	}
 
 	/**
