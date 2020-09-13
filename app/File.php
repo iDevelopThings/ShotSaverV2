@@ -90,7 +90,7 @@ class File extends Model
 		}*/
 
 		//Delete the temporary folder that was created to process the files...
-		//Storage::disk('processing')->deleteDirectory($this->name);
+		Storage::disk('processing')->deleteDirectory($this->name);
 
 		//Now we set the file as complete
 		$this->status = 'complete';
