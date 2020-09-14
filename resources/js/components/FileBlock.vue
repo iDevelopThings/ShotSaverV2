@@ -2,6 +2,11 @@
     <a :href="`/file/${upload.name}`" class="block relative group flex flex-row bg-gray-900 hover:bg-gray-800 hover:no-underline group-hover:no-underline duration-150 ease-in-out transition-all cursor-pointer border-gray-800 overflow-hidden shadow-md hover:shadow-2xl rounded-lg">
 
         <div class="absolute top-0 right-0 shadow-md  rounded-bl-lg flex flex-row overflow-hidden">
+            <div class="flex flex-col  px-2 bg-blue-700">
+                <p class=" text-xs mb-0 font-semibold text-gray-200 leading-loose tracking-wide uppercase">
+                    {{upload.type}}
+                </p>
+            </div>
             <div class="flex flex-col  px-2 bg-gray-700">
                 <p class=" text-xs mb-0 font-semibold text-gray-200 leading-loose tracking-wide uppercase">
                     {{upload.views}} View{{upload.views === 1 ? '' : 's'}}</p>

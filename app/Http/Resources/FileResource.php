@@ -28,7 +28,7 @@ class FileResource extends JsonResource
 			'status'           => $this->status,
 			'meta'             => $this->meta,
 			'created_at'       => $this->created_at,
-			'views'            => $this->when(isset($this->views_count), $this->views_count),
+			'views'            => $this->when(isset($this->views), $this->views),
 			'favourited'       => $this->when(isset($this->favourited), $this->favourited),
 			'total_favourites' => $this->when(isset($this->total_favourites), $this->total_favourites),
 		];
