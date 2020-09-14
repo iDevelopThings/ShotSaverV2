@@ -23,7 +23,7 @@ class FileResource extends JsonResource
 			'type'             => $this->type,
 			'private'          => $this->private,
 			'extension'        => $this->extension,
-			'thumb'            => $this->file('thumb'),
+			'thumb'            => route('get-file-url', [$this->id, 'thumb']),
 			'size'             => $this->formatSizeUnits(),
 			'status'           => $this->status,
 			'meta'             => $this->meta,
